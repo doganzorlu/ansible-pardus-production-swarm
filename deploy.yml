@@ -1,0 +1,45 @@
+---
+- name: Prepare Management Server
+  hosts: localhost  
+  connection: local
+  become: yes
+  become_user: root
+  roles:
+#   - prepare-mgmtsrv
+    - update-ansible-host-hosts-file
+    - install-packages
+    - install-docker
+
+- name: Prepare Docker Swarm 
+  hosts: nodes
+  become: yes
+  become_user: root
+  roles:
+    - hardening-ssh-service
+    - update-cluster-host-hosts-file   
+    - install-packages
+    - install-docker
+    - role: add-sudo-user-to-docker-group
+      user: "docker"
+
+- name: Initialize Swarm Cluster
+  hosts: manager01
+  roles:
+    - initialize-swarm
+    - get-tokens
+
+- name: Join Managers to Swarm Cluster
+  hosts: secondarymanagers
+  roles:
+    - join-manager-to-swarm
+
+- name: Initialize Swarm Cluster
+  hosts: manager01
+  roles:
+    - drain-managers
+
+- name: Join Workers to Swarm Cluster
+  hosts: workers
+  roles:
+    - join-worker-to-swarm
+

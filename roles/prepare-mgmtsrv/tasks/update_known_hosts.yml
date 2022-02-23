@@ -1,0 +1,27 @@
+---
+- name: Check if known_hosts exists
+  stat:
+    path: "{{ ssh_known_hosts_file }}"
+  register: stat_result
+
+- name: Create known_hosts file if not exists
+  file:
+    path: "{{item}}"
+    state: touch
+  with_items: "{{ ssh_known_hosts_file }}"
+  when: not stat_result.stat.exists
+
+- name: For each host, scan for its ssh public key
+  shell: "ssh-keyscan {{ item }},`dig +short {{ item }}`"
+  with_items: "{{ groups['nodes'] }}"
+  register: ssh_known_host_results
+  ignore_errors: yes
+  no_log: true
+  diff: no
+
+- name: Add/update the public key in the '{{ ssh_known_hosts_file }}'
+  known_hosts:
+    name: "{{ item.item }}"
+    key: "{{ item.stdout }}"
+    path: "{{ ssh_known_hosts_file }}"
+  with_items: "{{ ssh_known_host_results.results }}"

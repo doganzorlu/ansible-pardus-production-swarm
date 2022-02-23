@@ -1,0 +1,32 @@
+mgmtsrv:
+  hosts:
+    localhost:
+      ansible_connection: local
+
+nodes:
+  children:   
+    managers:
+      hosts:
+        manager01:
+          ansible_host: 10.0.121.22
+          cluster_host: 192.168.104.10
+      children:
+        secondarymanagers:
+          hosts:  
+            manager02:
+              ansible_host: 10.0.121.23
+              cluster_host: 192.168.104.11
+            manager03:
+              ansible_host: 10.0.121.24     
+              cluster_host: 192.168.104.12
+    workers:
+      hosts:
+        worker01:
+          ansible_host: 10.0.121.25
+          cluster_host: 192.168.104.13
+        worker02:
+          ansible_host: 10.0.121.26
+          cluster_host: 192.168.104.14
+        worker03:
+          ansible_host: 10.0.121.27
+          cluster_host: 192.168.104.15

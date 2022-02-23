@@ -1,0 +1,6 @@
+- name: Configure Management Station
+  include_tasks: "{{ modules }}"
+  loop:
+    - update_known_hosts.yml
+  loop_control:
+    loop_var: modules

@@ -1,0 +1,11 @@
+---
+- name: Allow Root Login
+  lineinfile:
+    path: "/etc/ssh/sshd_config"
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+    state: present
+    backup: yes
+  
+  notify:
+    - restart ssh

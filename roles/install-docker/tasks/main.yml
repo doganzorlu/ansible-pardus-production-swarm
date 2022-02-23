@@ -1,0 +1,15 @@
+---
+- name: Add Docker GPG Key to Package Manager
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+  tags: docker
+
+- name: Add Docker Repository to Package Manager
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/debian bullseye stable
+  tags: docker
+
+- name: Install Docker-CE
+  apt: name="docker-ce" state=latest update_cache=yes
+  tags: docker
