@@ -14,7 +14,7 @@ Docker Swarm Deployment Playbook
 
 Edit the inventory file with your current configuration. Run the following command to deploy swarm:
 
-$ ansible-playbook -i inventory.yml -u &lt;sudo username&gt; --ask-pass -kK  deploy
+$ ansible-playbook -i inventory.yml -u &lt;sudo username&gt; --ask-pass -kK  deploy.yml
 
 TODO:
 
