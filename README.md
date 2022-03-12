@@ -4,6 +4,7 @@ Management Server:
 ```bash
 $ sudo apt-get update & apt-get install ansible 
 $ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+$ sudo upt-get install python3-pip
 $ sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 $ sudo pip install docker-py
 $ apt-get install sshpass
